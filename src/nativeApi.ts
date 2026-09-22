@@ -10,17 +10,17 @@ import {
   readWsServerCapabilities,
 } from "./wsNativeApi";
 
-let cachedInjectedApi: NativeApi | undefined;
+let cachedDesktopApi: NativeApi | undefined;
 
 export function readNativeApi(): NativeApi | undefined {
   if (typeof window === "undefined") return undefined;
-  // Cloud sessions use the WS facade. Keep an explicitly injected NativeApi
-  // as a compatibility path for existing transport hosts and test harnesses.
-  if (cachedInjectedApi && window.nativeApi === cachedInjectedApi) return cachedInjectedApi;
+  if (cachedDesktopApi && window.nativeApi === cachedDesktopApi) return cachedDesktopApi;
+
   if (window.nativeApi) {
-    cachedInjectedApi = window.nativeApi;
-    return cachedInjectedApi;
+    cachedDesktopApi = window.nativeApi;
+    return cachedDesktopApi;
   }
+
   return createWsNativeApi();
 }
 

@@ -96,7 +96,7 @@ describe("storageOriginMigration", () => {
     expect(storage.getItem("cortex:composer-drafts:v1")).toBe("draft");
   });
 
-  it("does not read or acknowledge preload snapshots during Web bootstrap", async () => {
+  it("acknowledges the desktop snapshot only after a complete bootstrap import", async () => {
     const acknowledgeSnapshot = vi.fn(async () => undefined);
     vi.stubGlobal("window", {
       desktopBridge: {
@@ -112,11 +112,11 @@ describe("storageOriginMigration", () => {
     });
 
     await import("./storageOriginMigration");
-    expect(acknowledgeSnapshot).not.toHaveBeenCalled();
-    expect(globalThis.localStorage.getItem("cortex:theme")).toBeNull();
+    await vi.waitFor(() => expect(acknowledgeSnapshot).toHaveBeenCalledOnce());
+    expect(globalThis.localStorage.getItem("cortex:theme")).toBe("dark");
   });
 
-  it("does not access preload storage when renderer storage is unavailable", async () => {
+  it("does not acknowledge when renderer storage rejects a write", async () => {
     const acknowledgeSnapshot = vi.fn(async () => undefined);
     globalThis.localStorage = {
       ...createMemoryStorage(),

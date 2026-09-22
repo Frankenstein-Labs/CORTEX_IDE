@@ -1,12 +1,14 @@
 // FILE: wsHttpUrl.ts
-// Purpose: Resolves server HTTP URLs from the configured WebSocket endpoint so <img>/download
-// requests use the same cloud origin and legacy startup token as the WS connection.
+// Purpose: Resolves server HTTP URLs from the active WebSocket bridge so desktop <img>/download
+// requests carry the same legacy startup token already used for the WS connection.
 // Layer: Web utility
 // Exports: resolveWsHttpUrl, toAttachmentPreviewUrl
 
 // Build a fully-qualified HTTP URL for `rawPath` against the same server the WS connection uses.
-// When VITE_WS_URL is configured, mirror its host and forward the legacy token query param so
-// authenticated GET routes (attachments, local-image, …) can authorize without cookies.
+// On desktop the page is served from a custom protocol scheme, so <img>/<a download> with a
+// relative path never reaches the server. We mirror the WS host and forward the legacy token
+// query param so authenticated GET routes (attachments, local-image, …) can authorize the
+// request without touching cookies.
 export function resolveWsHttpUrl(rawPath: string): string {
   if (typeof window === "undefined") return rawPath;
   const bridgeWsUrl = window.desktopBridge?.getWsUrl?.();
@@ -17,11 +19,7 @@ export function resolveWsHttpUrl(rawPath: string): string {
       : typeof envWsUrl === "string" && envWsUrl.length > 0
         ? envWsUrl
         : null;
-  const pageOrigin =
-    typeof window.location?.origin === "string" && window.location.origin.length > 0
-      ? window.location.origin
-      : "http://localhost";
-  if (!wsCandidate) return new URL(rawPath, pageOrigin).toString();
+  if (!wsCandidate) return new URL(rawPath, window.location.origin).toString();
   try {
     const wsUrl = new URL(wsCandidate);
     const protocol =
@@ -36,7 +34,7 @@ export function resolveWsHttpUrl(rawPath: string): string {
     }
     return httpUrl.toString();
   } catch {
-    return new URL(rawPath, pageOrigin).toString();
+    return new URL(rawPath, window.location.origin).toString();
   }
 }
 
