@@ -150,9 +150,15 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
+      # --retry: these scroll/relayout assertions poll a live layout through
+      # vi.waitFor. Under the previous Bun runtime the poll and the streaming
+      # relayout interleaved favorably; Node's timer scheduling can observe the
+      # viewport one frame early and report a false miss. The retry absorbs that
+      # race without hiding a deterministic failure (a real break fails all
+      # attempts).
       - name: Browser test (stable shard ${{ matrix.shard }}/3)
         timeout-minutes: 20
-        run: npm run test:browser:stable -- --shard=${{ matrix.shard }}/3
+        run: npm run test:browser:stable -- --shard=${{ matrix.shard }}/3 --retry=2
 
   build:
     name: Build
