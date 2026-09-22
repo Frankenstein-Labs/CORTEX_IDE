@@ -110,9 +110,8 @@ const PRECOMPRESS_EXTENSIONS = new Set([".js", ".mjs", ".css", ".html", ".svg", 
 // the sidecar file overhead.
 const PRECOMPRESS_MIN_BYTES = 1024;
 
-// Emits .gz and .br sidecars next to compressible build outputs so the server
-// can serve precompressed bytes by Accept-Encoding instead of compressing on
-// the request path (apps/server/src/http.ts static route).
+// Emits .gz and .br sidecars next to compressible build outputs so a static
+// hosting layer can serve precompressed bytes by Accept-Encoding.
 function precompressPlugin(): Plugin {
   let resolvedOutDir = "dist";
   return {
@@ -210,7 +209,7 @@ export default defineConfig({
     ],
   },
   define: {
-    // In dev mode, tell the web app where the WebSocket server lives
+    // In dev mode, optionally tell the SPA where its WebSocket backend lives.
     "import.meta.env.VITE_WS_URL": JSON.stringify(process.env.VITE_WS_URL ?? ""),
     "import.meta.env.APP_VERSION": JSON.stringify(pkg.version),
   },
@@ -221,9 +220,7 @@ export default defineConfig({
     port,
     strictPort: true,
     hmr: {
-      // Explicit config so Vite's HMR WebSocket connects reliably
-      // inside Electron's BrowserWindow. Vite 8 uses console.debug for
-      // connection logs — enable "Verbose" in DevTools to see them.
+      // Explicit config keeps Vite's HMR WebSocket on the browser dev host.
       protocol: "ws",
       host: "localhost",
     },

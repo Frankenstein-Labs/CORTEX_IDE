@@ -2,9 +2,9 @@
   <img src="./assets/prod/logo.svg" width="112" alt="Cortex logo">
   <h1>Cortex</h1>
   <p><strong>A focused workspace for coding agents.</strong><br>
-  Projects, provider sessions, execution surfaces, and review tools in one local-first web app.</p>
+  CORTEX_IDE is a standalone React/Vite SPA for projects, provider sessions, execution surfaces, and review tools.</p>
   <p>
-    <a href="https://github.com/Emanuele-web04/cortex/releases/latest">Download</a>
+    <a href="https://github.com/Frankenstein-Labs/CORTEX_IDE/releases/latest">Releases</a>
     &nbsp;·&nbsp;
     <a href="https://www.trycortex.com/">Website</a>
     &nbsp;·&nbsp;
@@ -12,7 +12,7 @@
     &nbsp;·&nbsp;
     <a href="./docs/external-mcp.md">MCP integration</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/Emanuele-web04/cortex/issues/new/choose">Report an issue</a>
+    <a href="https://github.com/Frankenstein-Labs/CORTEX_IDE/issues/new/choose">Report an issue</a>
   </p>
 </div>
 
@@ -144,7 +144,7 @@ Cortex uses the provider installations and subscriptions already configured on t
 
 Bug fixes, reliability improvements, performance work, documentation, and maintenance changes are welcome.
 
-Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request. For a reproducible problem, [open an issue](https://github.com/Emanuele-web04/cortex/issues/new/choose) with the Cortex version, operating system, runtime, and relevant logs.
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request. For a reproducible problem, [open an issue](https://github.com/Frankenstein-Labs/CORTEX_IDE/issues/new/choose) with the CORTEX_IDE version, operating system, browser, and relevant logs.
 
 ## License
 
