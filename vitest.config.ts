@@ -6,14 +6,32 @@ export default defineConfig({
     alias: [
       {
         find: /^@cortex\/contracts$/,
-        replacement: path.resolve(import.meta.dirname, "./packages/contracts/src/index.ts"),
+        replacement: path.resolve(import.meta.dirname, "./contracts/src/index.ts"),
       },
-      // The web app's `~` alias (only workspace that defines one), so its
-      // modules stay importable from tests without rewriting to relative paths.
+      {
+        find: /^@cortex\/shared\/(.*)$/,
+        replacement: `${path.resolve(import.meta.dirname, "./shared/src")}/$1.ts`,
+      },
       {
         find: /^~\//,
-        replacement: `${path.resolve(import.meta.dirname, "./apps/web/src")}/`,
+        replacement: `${path.resolve(import.meta.dirname, "./src")}/`,
       },
+    ],
+  },
+  test: {
+    // The app spans the UI source, the vendored contracts/shared runtime modules,
+    // and the perf harnesses; keep every unit suite in one project.
+    include: [
+      "src/**/*.test.{ts,tsx}",
+      "perf/**/*.test.{ts,tsx}",
+      "contracts/src/**/*.test.ts",
+      "shared/src/**/*.test.ts",
+    ],
+    exclude: [
+      "node_modules",
+      "dist",
+      "src/**/*.browser.{ts,tsx}",
+      "src/**/*.browser.test.{ts,tsx}",
     ],
   },
 });

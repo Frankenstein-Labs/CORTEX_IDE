@@ -1,0 +1,26 @@
+diff --git a/node_modules/@legendapp/list/react.js b/node_modules/@legendapp/list/react.js
+index 544cca8..18be439 100644
+--- a/node_modules/@legendapp/list/react.js
++++ b/node_modules/@legendapp/list/react.js
+@@ -1392,7 +1392,7 @@ function doMaintainScrollAtEnd(ctx) {
+       const activeState = maintainScrollAtEnd.animated ? "animated" : "instant";
+       state.maintainingScrollAtEnd = pendingState;
+       requestAnimationFrame(() => {
+-        if (peek$(ctx, "isWithinMaintainScrollAtEndThreshold")) {
++        if (state.props.maintainScrollAtEnd && peek$(ctx, "isWithinMaintainScrollAtEndThreshold")) {
+           state.maintainingScrollAtEnd = activeState;
+           const scroller = refScroller.current;
+           if (state.props.horizontal && isHorizontalRTL(state)) {
+diff --git a/node_modules/@legendapp/list/react.mjs b/node_modules/@legendapp/list/react.mjs
+index 6b2d901..d3ef822 100644
+--- a/node_modules/@legendapp/list/react.mjs
++++ b/node_modules/@legendapp/list/react.mjs
+@@ -1371,7 +1371,7 @@ function doMaintainScrollAtEnd(ctx) {
+       const activeState = maintainScrollAtEnd.animated ? "animated" : "instant";
+       state.maintainingScrollAtEnd = pendingState;
+       requestAnimationFrame(() => {
+-        if (peek$(ctx, "isWithinMaintainScrollAtEndThreshold")) {
++        if (state.props.maintainScrollAtEnd && peek$(ctx, "isWithinMaintainScrollAtEndThreshold")) {
+           state.maintainingScrollAtEnd = activeState;
+           const scroller = refScroller.current;
+           if (state.props.horizontal && isHorizontalRTL(state)) {

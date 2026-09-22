@@ -58,17 +58,20 @@ That gives you a chance to check whether the direction fits before spending time
 
 ## Testing
 
-Run the full workspace test suite from the repository root with:
+Run the full test suite from the repository root with:
 
 ```bash
-bun run test
+npm test
 ```
 
-For focused web tests, pass paths relative to `apps/web` through the dedicated root command:
+For focused runs, pass paths straight through — the suite lives at the repo root:
 
 ```bash
-bun run test:web:focused src/path/to/example.test.ts
+npx vitest run src/path/to/example.test.ts
 ```
+
+`npm run test:browser` runs the Playwright-backed browser suite; install Chromium
+once with `npm run test:browser:install`.
 
 ## Be Realistic
 
