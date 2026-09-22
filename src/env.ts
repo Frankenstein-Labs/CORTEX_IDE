@@ -1,8 +1,8 @@
 /**
- * True when running inside the Electron preload bridge, false in a regular browser.
- * The preload script sets window.nativeApi via contextBridge before any web-app
- * code executes, so this is reliable at module load time.
+ * Web runtime marker.
+ *
+ * Keep this compatibility export for UI modules that still use the historical
+ * flag, but do not infer a runtime from injected preload globals. The cloud
+ * frontend is a regular browser application and uses the WebSocket facade.
  */
-export const isElectron =
-  typeof window !== "undefined" &&
-  (window.desktopBridge !== undefined || window.nativeApi !== undefined);
+export const isElectron = false;
