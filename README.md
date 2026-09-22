@@ -2,9 +2,9 @@
   <img src="./assets/prod/logo.svg" width="112" alt="Cortex logo">
   <h1>Cortex</h1>
   <p><strong>A focused workspace for coding agents.</strong><br>
-  Projects, provider sessions, execution surfaces, and review tools in one local-first desktop application.</p>
+  CORTEX_IDE is a standalone React/Vite SPA for projects, provider sessions, execution surfaces, and review tools.</p>
   <p>
-    <a href="https://github.com/Emanuele-web04/cortex/releases/latest">Download</a>
+    <a href="https://github.com/Frankenstein-Labs/CORTEX_IDE/releases/latest">Releases</a>
     &nbsp;·&nbsp;
     <a href="https://www.trycortex.com/">Website</a>
     &nbsp;·&nbsp;
@@ -12,7 +12,7 @@
     &nbsp;·&nbsp;
     <a href="./docs/external-mcp.md">MCP integration</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/Emanuele-web04/cortex/issues/new/choose">Report an issue</a>
+    <a href="https://github.com/Frankenstein-Labs/CORTEX_IDE/issues/new/choose">Report an issue</a>
   </p>
 </div>
 
@@ -107,50 +107,44 @@ Configure the shell to match the way you work with light and dark themes, typogr
 | **Execution**     | Terminals, browser previews, files, and editor.                 |
 | **Delivery**      | Diffs, Git actions, managed worktrees, and pull requests.       |
 | **Orchestration** | Provider handoffs, automations, and scoped external MCP.        |
-| **Development**   | Desktop shell plus focused server and web modes.                |
+| **Development**   | Standalone Vite web app with unit, browser, and perf suites.    |
 
 ## Installation
 
-### Desktop application
+### Run from source
 
-Download the latest build from [GitHub Releases](https://github.com/Emanuele-web04/cortex/releases) or visit [trycortex.com](https://www.trycortex.com/).
+The checkout uses [Node.js](https://nodejs.org/) `^22.19 || ^23.11 || >=24.10` and npm.
 
-Current native release targets are Windows x64, macOS Intel, macOS Apple Silicon, and Linux x64.
+```console
+git clone https://github.com/Frankenstein-Labs/CORTEX_IDE.git
+cd CORTEX_IDE
+npm install
+npm run dev
+```
+
+`npm run dev` serves the app with Vite; `npm run build` produces the production
+bundle in `dist/`.
+
+| Command                | Purpose                                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run dev`          | Vite dev server with Fast Refresh.                                                              |
+| `npm run build`        | Production build to `dist/`.                                                                    |
+| `npm run preview`      | Serve the built bundle locally.                                                                 |
+| `npm run typecheck`    | TypeScript check across the app and vendored modules.                                           |
+| `npm test`             | Unit test suite (Vitest).                                                                       |
+| `npm run test:browser` | Browser suite (Playwright + Vitest); install Chromium once with `npm run test:browser:install`. |
+| `npm run fmt:check`    | Format check (oxfmt).                                                                           |
+| `npm run lint`         | Lint (oxlint).                                                                                  |
 
 ### Provider setup
 
 Cortex uses the provider installations and subscriptions already configured on the local machine. Install and authenticate the runtime you intend to use before starting a session. For Codex sessions, follow the [Codex CLI setup](https://github.com/openai/codex).
 
-### Run from source
-
-The development checkout uses [Bun 1.4.2](https://bun.sh/) and [Node.js 24.13.1](https://nodejs.org/).
-
-```console
-git clone https://github.com/Emanuele-web04/cortex.git
-cd cortex
-bun install
-bun run dev
-```
-
-`bun run typecheck` checks all seven workspaces with TypeScript 7 and the native
-Effect checker. CI and each workspace's `typecheck` script use the same compiler.
-`bun run typecheck:native` remains an alias for the default check.
-
-The native Effect checker does not enforce every legacy rule: in particular,
-`importFromBarrel` errors are currently missed. `bun run typecheck:legacy` keeps
-the TypeScript 5 check available for explicit comparisons; it is not run by CI.
-The existing compiler also remains installed for build and declaration tools
-that require its JavaScript API. Native and legacy checks use separate caches.
-
-Use these named scripts rather than a bare `tsc`, whose version depends on the
-current directory. Normal installation patches the native compiler for Effect;
-the root `typecheck` command also ensures that patch is applied before checking.
-
 ## Contributing
 
 Bug fixes, reliability improvements, performance work, documentation, and maintenance changes are welcome.
 
-Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request. For a reproducible problem, [open an issue](https://github.com/Emanuele-web04/cortex/issues/new/choose) with the Cortex version, operating system, runtime, and relevant logs.
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request. For a reproducible problem, [open an issue](https://github.com/Frankenstein-Labs/CORTEX_IDE/issues/new/choose) with the CORTEX_IDE version, operating system, browser, and relevant logs.
 
 ## License
 

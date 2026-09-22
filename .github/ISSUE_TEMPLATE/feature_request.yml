@@ -27,10 +27,10 @@ body:
       label: Area
       description: Which part of the project would this change affect?
       options:
-        - apps/web
-        - apps/server
-        - apps/desktop
-        - packages/contracts or packages/shared
+        - src
+        - contracts
+        - shared
+        - public
         - Build, CI, or release tooling
         - Docs
         - Not sure

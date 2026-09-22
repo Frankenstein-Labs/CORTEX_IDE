@@ -27,10 +27,10 @@ body:
       label: Area
       description: Which part of the project is affected?
       options:
-        - apps/web
-        - apps/server
-        - apps/desktop
-        - packages/contracts or packages/shared
+        - src
+        - contracts
+        - shared
+        - public
         - Build, CI, or release tooling
         - Docs
         - Not sure
@@ -90,8 +90,8 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: OS, browser or desktop app version, Node/Bun version, provider/model if relevant.
-      placeholder: macOS 15.3, Chrome 135, Bun 1.3.9, Codex app-server ...
+      description: OS, browser version, Node/npm version, provider/model if relevant.
+      placeholder: Ubuntu 24.04, Chrome 135, Node 22.19, Codex ...
 
   - type: textarea
     id: logs

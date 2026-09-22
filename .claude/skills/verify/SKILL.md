@@ -1,31 +1,24 @@
-# Verify: run Cortex locally for runtime verification
+# Verify: run CORTEX_IDE locally for runtime verification
 
-How to launch an isolated Cortex instance (server + web) to observe UI changes, without touching `~/.cortex` or the default dev ports.
+How to launch the standalone React/Vite SPA on an isolated development port without touching the default dev port.
 
 ## Launch
 
 ```bash
-# 1. Server (from the directory you want as the workspace/project cwd):
-CORTEX_HOME=<scratch>/cortex-home \
-CORTEX_PORT=3899 CORTEX_MODE=web CORTEX_NO_BROWSER=1 \
-VITE_DEV_SERVER_URL=http://localhost:5899 \
-bun <repo>/apps/server/src/index.ts &
-
-# 2. Web (vite dev):
-cd <repo>/apps/web && PORT=5899 VITE_WS_URL=ws://localhost:3899 bun run dev &
+cd <repo>
+PORT=5899 npm run dev &
 ```
 
 Then open http://localhost:5899/.
 
 ## Gotchas
 
-- `VITE_DEV_SERVER_URL` on the **server** is required — without it the WS handshake from the vite origin is rejected with 403 (see `apps/server/src/trustedOrigins.ts`).
-- `VITE_WS_URL` on the **web** side tells the app where the WS server lives (`apps/web/src/wsTransport.ts`).
-- Default ports are 3773 (server) / 5733 (web) plus a per-checkout hash offset — pick explicit distinct ports to avoid colliding with a running dev instance.
+- `VITE_WS_URL` optionally tells the SPA where an external WebSocket backend lives; leave it unset when only validating the client shell.
+- The default Vite port is 5733; use an explicit `PORT` to avoid colliding with another checkout.
 - The project picker ("Work in a project") only lists **top-level folders in $HOME** and clicking one selects it as the workspace immediately (no drill-down). To open a test repo, place/symlink it at `~/<name>` temporarily.
 - To see diffs: select a git workspace with uncommitted changes, then click the **+N −N** toggle in the top-right chat header — it opens the DiffPanel (working-tree diff). No project/thread needed.
-- Server tests: don't run the suite from a checkout under `/private/tmp` — `localImageRoute.test.ts` fails there (its "outside the workspace" fixture lands in an allowed temp root). It passes from a normal checkout and on CI.
+- Run the unit suite with `npm test` and the browser suite with `npm run test:browser`.
 
 ## Playwright driving
 
-Chrome extension may be unavailable; `playwright` is a devDependency of `apps/web` — import it by absolute path from `apps/web/node_modules/playwright/index.mjs` in a scratch script.
+Chrome extension may be unavailable; Playwright is a root devDependency and can be imported from `node_modules/playwright/index.mjs` in a scratch script.
