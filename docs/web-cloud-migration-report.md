@@ -8,13 +8,13 @@ Aucun backend CORTEX Cloud n’a été inventé et aucun contrat WebSocket n’a
 
 ## Changements appliqués
 
-| Zone | Changement | Effet |
-| --- | --- | --- |
-| `src/nativeApi.ts` | Le frontend utilise l’adaptateur `createWsNativeApi()` par défaut ; une API explicitement injectée reste acceptée comme compatibilité de transport existante. | Le chemin Cloud ne requiert aucun preload, sans casser les hôtes qui fournissent déjà le contrat `NativeApi`. |
-| `src/lib/wsHttpUrl.ts` | Conservation de `desktopBridge.getWsUrl()` comme source d’endpoint WS existante, avec `VITE_WS_URL` comme source Web/Cloud et l’origine de page en dernier recours. | Les téléchargements et previews HTTP suivent le transport configuré et conservent les tokens existants. |
-| `src/main.tsx` | Suppression de l’initialisation de fenêtre Electron, de la détection macOS et des attributs de fenêtre transparente. | Le bootstrap est celui d’une SPA Web standard. |
-| `src/env.ts` | Le marqueur historique `isElectron` est conservé uniquement pour compatibilité de compilation, mais ne détecte plus de preload. Il vaut toujours `false` dans le frontend Web. | Les branches d’interface spécifiques desktop ne s’activent pas dans le build Web. |
-| `src/storageOriginMigration.ts` | Conservation de l’importeur de snapshot validé, mais suppression de la lecture/acknowledgement automatique via `desktopBridge.storageMigration`. | Le stockage courant reste attaché à l’origine Web ; aucun accès local/preload implicite. |
+| Zone                            | Changement                                                                                                                                                                     | Effet                                                                                                         |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `src/nativeApi.ts`              | Le frontend utilise l’adaptateur `createWsNativeApi()` par défaut ; une API explicitement injectée reste acceptée comme compatibilité de transport existante.                  | Le chemin Cloud ne requiert aucun preload, sans casser les hôtes qui fournissent déjà le contrat `NativeApi`. |
+| `src/lib/wsHttpUrl.ts`          | Conservation de `desktopBridge.getWsUrl()` comme source d’endpoint WS existante, avec `VITE_WS_URL` comme source Web/Cloud et l’origine de page en dernier recours.            | Les téléchargements et previews HTTP suivent le transport configuré et conservent les tokens existants.       |
+| `src/main.tsx`                  | Suppression de l’initialisation de fenêtre Electron, de la détection macOS et des attributs de fenêtre transparente.                                                           | Le bootstrap est celui d’une SPA Web standard.                                                                |
+| `src/env.ts`                    | Le marqueur historique `isElectron` est conservé uniquement pour compatibilité de compilation, mais ne détecte plus de preload. Il vaut toujours `false` dans le frontend Web. | Les branches d’interface spécifiques desktop ne s’activent pas dans le build Web.                             |
+| `src/storageOriginMigration.ts` | Conservation de l’importeur de snapshot validé, mais suppression de la lecture/acknowledgement automatique via `desktopBridge.storageMigration`.                               | Le stockage courant reste attaché à l’origine Web ; aucun accès local/preload implicite.                      |
 
 ## Transport et configuration
 
