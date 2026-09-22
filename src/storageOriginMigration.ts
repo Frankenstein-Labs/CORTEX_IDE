@@ -1,5 +1,5 @@
 // FILE: storageOriginMigration.ts
-// Purpose: Imports Cortex browser state before renderer stores hydrate after a desktop origin move.
+// Purpose: Retains the validated snapshot importer for compatible state restores.
 
 import type { CortexStorageSnapshot } from "@cortex/contracts";
 
@@ -55,17 +55,9 @@ export function importCortexStorageSnapshot(
 }
 
 export function bootstrapCortexStorageOriginMigration(): void {
-  const bridge = globalThis.window?.desktopBridge?.storageMigration;
-  if (!bridge) return;
-
-  try {
-    const snapshot = bridge.readSnapshot();
-    if (snapshot && importCortexStorageSnapshot(snapshot)) {
-      void bridge.acknowledgeSnapshot().catch(() => undefined);
-    }
-  } catch {
-    // Keep the snapshot for a later retry if preload or storage is unavailable.
-  }
+  // Cloud sessions use the current browser origin directly. Import remains an
+  // explicit, testable helper; automatic preload migration is intentionally not
+  // part of the Web frontend runtime.
 }
 
 bootstrapCortexStorageOriginMigration();
