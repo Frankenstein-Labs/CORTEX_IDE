@@ -2,22 +2,25 @@ import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { FormEvent, useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight, FiGithub, FiLock, FiMail } from "react-icons/fi";
 import { CortexMark } from "./MarketingLanding";
-import { authRedirect, getSession, hasSupabaseAuth, signInWithProvider, supabase } from "./auth";
+import { authRedirect, getSession, signInWithProvider, supabase } from "./auth";
 
-type AuthMode = "sign-in" | "sign-up" | "forgot-password";
+type AuthMode = "sign-in" | "sign-up" | "forgot-password" | "reset-password";
 
 export function AuthPage({ mode }: { mode: AuthMode }) {
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { next?: string };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     void getSession().then((session) => {
-      if (session && mode !== "forgot-password") void navigate({ to: "/app", replace: true });
+      if (session && mode !== "forgot-password" && mode !== "reset-password") {
+        void navigate({ to: "/app", replace: true });
+      }
     });
   }, [mode, navigate]);
 
@@ -33,6 +36,24 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
       setBusy(false);
       return;
     }
+
+    if (mode === "reset-password") {
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        setBusy(false);
+        return;
+      }
+      const { error: resetError } = await supabase.auth.updateUser({ password });
+      if (resetError) setError(resetError.message);
+      else {
+        setMessage("Your password has been updated. You can now sign in.");
+        setPassword("");
+        setConfirmPassword("");
+      }
+      setBusy(false);
+      return;
+    }
+
     const result =
       mode === "sign-up"
         ? await supabase.auth.signUp({
@@ -53,6 +74,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
     else void navigate({ to: search.next || "/app", replace: true });
     setBusy(false);
   };
+
   const oauth = async (provider: "google" | "github") => {
     setError("");
     setBusy(true);
@@ -60,18 +82,24 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
     if (oauthError) setError(oauthError.message);
     setBusy(false);
   };
+
   const title =
     mode === "sign-up"
       ? "Create your workspace"
       : mode === "forgot-password"
         ? "Reset your password"
-        : "Welcome back";
+        : mode === "reset-password"
+          ? "Choose a new password"
+          : "Welcome back";
   const subtitle =
     mode === "sign-up"
       ? "Start building with an AI-native development workspace."
       : mode === "forgot-password"
         ? "Enter your email and we’ll send you a secure reset link."
-        : "Sign in to continue where you left off.";
+        : mode === "reset-password"
+          ? "Set a new password for your CORTEX account."
+          : "Sign in to continue where you left off.";
+
   return (
     <main className="auth-shell">
       <div className="auth-visual">
@@ -98,7 +126,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
           </Link>
           <div className="auth-heading">
             <div className="eyebrow">
-              {mode === "forgot-password"
+              {mode === "forgot-password" || mode === "reset-password"
                 ? "ACCOUNT RECOVERY"
                 : mode === "sign-up"
                   ? "GET STARTED"
@@ -109,7 +137,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
           </div>
           {message && <div className="auth-message">{message}</div>}
           {error && <div className="auth-error">{error}</div>}
-          {mode !== "forgot-password" && (
+          {mode !== "forgot-password" && mode !== "reset-password" && (
             <div className="oauth-grid">
               <button type="button" onClick={() => void oauth("google")} disabled={busy}>
                 <span className="oauth-google">G</span> Google
@@ -119,42 +147,63 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               </button>
             </div>
           )}
-          {mode !== "forgot-password" && (
+          {mode !== "forgot-password" && mode !== "reset-password" && (
             <div className="auth-divider">
               <span>or continue with email</span>
             </div>
           )}
           <form onSubmit={submit}>
-            <label>
-              Email address
-              <div className="auth-input">
-                <FiMail />
-                <input
-                  type="email"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@company.com"
-                />
-              </div>
-            </label>
-            {mode !== "forgot-password" && (
+            {mode !== "reset-password" && (
               <label>
-                Password
+                Email address
                 <div className="auth-input">
-                  <FiLock />
+                  <FiMail />
                   <input
-                    type="password"
+                    type="email"
                     required
-                    minLength={8}
-                    autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="At least 8 characters"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
                   />
                 </div>
               </label>
+            )}
+            {mode !== "forgot-password" && (
+              <>
+                <label>
+                  Password
+                  <div className="auth-input">
+                    <FiLock />
+                    <input
+                      type="password"
+                      required
+                      minLength={8}
+                      autoComplete={mode === "sign-up" || mode === "reset-password" ? "new-password" : "current-password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="At least 8 characters"
+                    />
+                  </div>
+                </label>
+                {mode === "reset-password" && (
+                  <label>
+                    Confirm password
+                    <div className="auth-input">
+                      <FiLock />
+                      <input
+                        type="password"
+                        required
+                        minLength={8}
+                        autoComplete="new-password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Repeat your new password"
+                      />
+                    </div>
+                  </label>
+                )}
+              </>
             )}
             {mode === "sign-in" && (
               <div className="auth-form-meta">
@@ -169,7 +218,9 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
                   ? "Create account"
                   : mode === "forgot-password"
                     ? "Send reset link"
-                    : "Sign in"}
+                    : mode === "reset-password"
+                      ? "Update password"
+                      : "Sign in"}
               <FiArrowRight />
             </button>
           </form>
