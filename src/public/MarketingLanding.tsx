@@ -321,6 +321,33 @@ export function MarketingLanding() {
           <span className="orbit-label orbit-label--left">SHIP</span>
         </div>
       </section>
+      <section className="founder-section" id="founder">
+        <div className="founder-section__photo-wrap">
+          <div className="founder-section__photo-frame">
+            <img
+              src="/cortex-founder.jpeg"
+              alt="The founder and creator of CORTEX"
+              className="founder-section__photo"
+            />
+          </div>
+          <span className="founder-section__stamp">CORTEX / ORIGIN 01</span>
+        </div>
+        <div className="founder-section__copy">
+          <div className="eyebrow">THE PERSON BEHIND CORTEX</div>
+          <h2>
+            Built from a<br />
+            <span>founder’s vision.</span>
+          </h2>
+          <p>
+            CORTEX is created by the person pictured here: a founder focused on making software
+            development more direct, more human, and more capable with AI.
+          </p>
+          <div className="founder-section__signature">
+            <span className="founder-section__line" />
+            <span>Founder &amp; creator of CORTEX</span>
+          </div>
+        </div>
+      </section>
       <section className="pricing-section" id="pricing">
         <div className="section-heading section-heading--center">
           <div className="eyebrow">SIMPLE BY DESIGN</div>
