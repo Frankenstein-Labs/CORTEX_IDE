@@ -219,6 +219,7 @@ export default defineConfig({
   server: {
     port,
     strictPort: true,
+    allowedHosts: true,
     hmr: {
       // Explicit config keeps Vite's HMR WebSocket on the browser dev host.
       protocol: "ws",
