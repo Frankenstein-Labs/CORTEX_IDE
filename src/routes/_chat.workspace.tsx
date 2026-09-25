@@ -98,7 +98,7 @@ function ChatIndexRouteView() {
   );
 }
 
-export const Route = createFileRoute("/_chat/")({
+export const Route = createFileRoute("/_chat/workspace")({
   validateSearch: (raw: Record<string, unknown>): ChatIndexSearch =>
     typeof raw.space === "string" && raw.space.length > 0 ? { space: raw.space } : {},
   component: ChatIndexRouteView,

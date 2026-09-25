@@ -1,6 +1,12 @@
 import type { ResolvedKeybindingsConfig } from "@cortex/contracts";
 import { useQuery } from "@tanstack/react-query";
-import { Outlet, createFileRoute, useLocation, useNavigate } from "@tanstack/react-router";
+import {
+  Outlet,
+  createFileRoute,
+  redirect,
+  useLocation,
+  useNavigate,
+} from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -52,6 +58,7 @@ import {
 } from "~/components/ui/sidebar";
 import type { SidebarResizableOptions } from "~/components/ui/sidebar";
 import { cn, getNavigatorPlatform, isMacPlatform } from "~/lib/utils";
+import { getSession } from "../public/auth";
 
 const EMPTY_KEYBINDINGS: ResolvedKeybindingsConfig = [];
 const THREAD_SIDEBAR_WIDTH_STORAGE_KEY = "chat_thread_sidebar_width";
@@ -617,5 +624,13 @@ function ChatRouteLayout() {
 }
 
 export const Route = createFileRoute("/_chat")({
+  beforeLoad: async () => {
+    // Native builds already have their own transport/session boundary. On web,
+    // keep the IDE private and send anonymous visitors through the public auth UI.
+    if (isElectron) return;
+    if (!(await getSession())) {
+      throw redirect({ to: "/sign-in" });
+    }
+  },
   component: ChatRouteLayout,
 });
