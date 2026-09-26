@@ -179,7 +179,11 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
                       type="password"
                       required
                       minLength={8}
-                      autoComplete={mode === "sign-up" || mode === "reset-password" ? "new-password" : "current-password"}
+                      autoComplete={
+                        mode === "sign-up" || mode === "reset-password"
+                          ? "new-password"
+                          : "current-password"
+                      }
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="At least 8 characters"
