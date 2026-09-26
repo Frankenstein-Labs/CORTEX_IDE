@@ -152,8 +152,6 @@ function IdePreview() {
 
 export function MarketingLanding() {
   const [openFaq, setOpenFaq] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
   return (
     <main className="marketing-shell">
       <nav className="marketing-nav">
@@ -174,35 +172,10 @@ export function MarketingLanding() {
             Get started <FiArrowRight />
           </Link>
         </div>
-        <button
-          className="marketing-menu"
-          type="button"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileMenuOpen}
-          onClick={() => setMobileMenuOpen((open) => !open)}
-        >
+        <button className="marketing-menu" aria-label="Open menu">
           ☰
         </button>
       </nav>
-      {mobileMenuOpen && (
-        <div className="marketing-mobile-panel">
-          <a href="#product" onClick={closeMobileMenu}>
-            Product
-          </a>
-          <a href="#features" onClick={closeMobileMenu}>
-            Features
-          </a>
-          <a href="#pricing" onClick={closeMobileMenu}>
-            Pricing
-          </a>
-          <a href="#resources" onClick={closeMobileMenu}>
-            Resources
-          </a>
-          <Link to="/sign-in" onClick={closeMobileMenu}>
-            Sign in
-          </Link>
-        </div>
-      )}
       <section className="marketing-hero" id="product">
         <div className="marketing-hero__glow" />
         <div className="eyebrow">
