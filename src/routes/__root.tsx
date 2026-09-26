@@ -246,6 +246,15 @@ function RootRouteView() {
   useNativeFontSmoothing();
   useSyncDesktopTopBarTrafficLightGutterZoom();
   useTheme();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isPublicRoute =
+    pathname === "/" ||
+    pathname === "/sign-in" ||
+    pathname === "/sign-up" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/auth/callback" ||
+    pathname === "/logout";
   const [compatibilityIssue, setCompatibilityIssue] = useState<WsCompatibilityError | null>(() =>
     readLatestWsCompatibilityIssue(),
   );
@@ -284,6 +293,15 @@ function RootRouteView() {
     return (
       <>
         <TransportCompatibilityView issue={compatibilityIssue} />
+        {desktopChrome}
+      </>
+    );
+  }
+
+  if (!readNativeApi() && isPublicRoute) {
+    return (
+      <>
+        <Outlet />
         {desktopChrome}
       </>
     );

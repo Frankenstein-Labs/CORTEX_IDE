@@ -9,13 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChatRouteImport } from './routes/_chat'
-import { Route as ChatIndexRouteImport } from './routes/_chat.index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LogoutRouteImport } from './routes/logout'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as ChatThreadIdRouteImport } from './routes/_chat.$threadId'
 import { Route as ChatAutomationsRouteImport } from './routes/_chat.automations'
 import { Route as ChatPluginsRouteImport } from './routes/_chat.plugins'
 import { Route as ChatPullRequestsRouteImport } from './routes/_chat.pull-requests'
 import { Route as ChatSettingsRouteImport } from './routes/_chat.settings'
+import { Route as ChatWorkspaceRouteImport } from './routes/_chat.workspace'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ChatAutomationsIndexRouteImport } from './routes/_chat.automations.index'
 import { Route as ChatAutomationsAutomationIdRouteImport } from './routes/_chat.automations.$automationId'
 import { Route as ChatKanbanIndexRouteImport } from './routes/_chat.kanban.index'
@@ -23,14 +31,44 @@ import { Route as ChatKanbanProjectIdRouteImport } from './routes/_chat.kanban.$
 import { Route as ChatPullRequestsIndexRouteImport } from './routes/_chat.pull-requests.index'
 import { Route as ChatStudioIndexRouteImport } from './routes/_chat.studio.index'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChatRoute = ChatRouteImport.update({
   id: '/_chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ChatIndexRoute = ChatIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ChatRoute,
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoutRoute = LogoutRouteImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
   id: '/$threadId',
@@ -56,6 +94,16 @@ const ChatSettingsRoute = ChatSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => ChatRoute,
+} as any)
+const ChatWorkspaceRoute = ChatWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => ChatRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ChatAutomationsIndexRoute = ChatAutomationsIndexRouteImport.update({
   id: '/',
@@ -90,12 +138,20 @@ const ChatStudioIndexRoute = ChatStudioIndexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof ChatIndexRoute
+  '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/$threadId': typeof ChatThreadIdRoute
   '/automations': typeof ChatAutomationsRouteWithChildren
   '/plugins': typeof ChatPluginsRoute
   '/pull-requests': typeof ChatPullRequestsRouteWithChildren
   '/settings': typeof ChatSettingsRoute
+  '/workspace': typeof ChatWorkspaceRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/automations/$automationId': typeof ChatAutomationsAutomationIdRoute
   '/kanban/$projectId': typeof ChatKanbanProjectIdRoute
   '/automations/': typeof ChatAutomationsIndexRoute
@@ -104,10 +160,18 @@ export interface FileRoutesByFullPath {
   '/studio/': typeof ChatStudioIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/$threadId': typeof ChatThreadIdRoute
   '/plugins': typeof ChatPluginsRoute
   '/settings': typeof ChatSettingsRoute
-  '/': typeof ChatIndexRoute
+  '/workspace': typeof ChatWorkspaceRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/automations/$automationId': typeof ChatAutomationsAutomationIdRoute
   '/kanban/$projectId': typeof ChatKanbanProjectIdRoute
   '/automations': typeof ChatAutomationsIndexRoute
@@ -117,13 +181,21 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_chat': typeof ChatRouteWithChildren
+  '/app': typeof AppRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/_chat/$threadId': typeof ChatThreadIdRoute
   '/_chat/automations': typeof ChatAutomationsRouteWithChildren
   '/_chat/plugins': typeof ChatPluginsRoute
   '/_chat/pull-requests': typeof ChatPullRequestsRouteWithChildren
   '/_chat/settings': typeof ChatSettingsRoute
-  '/_chat/': typeof ChatIndexRoute
+  '/_chat/workspace': typeof ChatWorkspaceRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/_chat/automations/$automationId': typeof ChatAutomationsAutomationIdRoute
   '/_chat/kanban/$projectId': typeof ChatKanbanProjectIdRoute
   '/_chat/automations/': typeof ChatAutomationsIndexRoute
@@ -135,11 +207,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/logout'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
     | '/$threadId'
     | '/automations'
     | '/plugins'
     | '/pull-requests'
     | '/settings'
+    | '/workspace'
+    | '/auth/callback'
     | '/automations/$automationId'
     | '/kanban/$projectId'
     | '/automations/'
@@ -148,10 +228,18 @@ export interface FileRouteTypes {
     | '/studio/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/logout'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
     | '/$threadId'
     | '/plugins'
     | '/settings'
-    | '/'
+    | '/workspace'
+    | '/auth/callback'
     | '/automations/$automationId'
     | '/kanban/$projectId'
     | '/automations'
@@ -160,13 +248,21 @@ export interface FileRouteTypes {
     | '/studio'
   id:
     | '__root__'
+    | '/'
     | '/_chat'
+    | '/app'
+    | '/forgot-password'
+    | '/logout'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
     | '/_chat/$threadId'
     | '/_chat/automations'
     | '/_chat/plugins'
     | '/_chat/pull-requests'
     | '/_chat/settings'
-    | '/_chat/'
+    | '/_chat/workspace'
+    | '/auth/callback'
     | '/_chat/automations/$automationId'
     | '/_chat/kanban/$projectId'
     | '/_chat/automations/'
@@ -176,11 +272,26 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   ChatRoute: typeof ChatRouteWithChildren
+  AppRoute: typeof AppRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LogoutRoute: typeof LogoutRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_chat': {
       id: '/_chat'
       path: ''
@@ -188,12 +299,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_chat/': {
-      id: '/_chat/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof ChatIndexRouteImport
-      parentRoute: typeof ChatRoute
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_chat/$threadId': {
       id: '/_chat/$threadId'
@@ -229,6 +375,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings'
       preLoaderRoute: typeof ChatSettingsRouteImport
       parentRoute: typeof ChatRoute
+    }
+    '/_chat/workspace': {
+      id: '/_chat/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof ChatWorkspaceRouteImport
+      parentRoute: typeof ChatRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_chat/automations/': {
       id: '/_chat/automations/'
@@ -306,7 +466,7 @@ interface ChatRouteChildren {
   ChatPluginsRoute: typeof ChatPluginsRoute
   ChatPullRequestsRoute: typeof ChatPullRequestsRouteWithChildren
   ChatSettingsRoute: typeof ChatSettingsRoute
-  ChatIndexRoute: typeof ChatIndexRoute
+  ChatWorkspaceRoute: typeof ChatWorkspaceRoute
   ChatKanbanProjectIdRoute: typeof ChatKanbanProjectIdRoute
   ChatKanbanIndexRoute: typeof ChatKanbanIndexRoute
   ChatStudioIndexRoute: typeof ChatStudioIndexRoute
@@ -318,7 +478,7 @@ const ChatRouteChildren: ChatRouteChildren = {
   ChatPluginsRoute: ChatPluginsRoute,
   ChatPullRequestsRoute: ChatPullRequestsRouteWithChildren,
   ChatSettingsRoute: ChatSettingsRoute,
-  ChatIndexRoute: ChatIndexRoute,
+  ChatWorkspaceRoute: ChatWorkspaceRoute,
   ChatKanbanProjectIdRoute: ChatKanbanProjectIdRoute,
   ChatKanbanIndexRoute: ChatKanbanIndexRoute,
   ChatStudioIndexRoute: ChatStudioIndexRoute,
@@ -327,7 +487,15 @@ const ChatRouteChildren: ChatRouteChildren = {
 const ChatRouteWithChildren = ChatRoute._addFileChildren(ChatRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   ChatRoute: ChatRouteWithChildren,
+  AppRoute: AppRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LogoutRoute: LogoutRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
