@@ -560,6 +560,21 @@ body,
   overscroll-behavior-y: none;
 }
 
+/* The IDE intentionally owns a fixed, non-scrolling viewport. Public marketing
+   and auth pages are document flows, so opt those routes back into normal page
+   scrolling without changing the native/web IDE shell. */
+html:has(.marketing-shell),
+body:has(.marketing-shell),
+#root:has(.marketing-shell),
+html:has(.auth-shell),
+body:has(.auth-shell),
+#root:has(.auth-shell) {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+}
+
 /* Preserve inset variant rounding (inherits from the main element) */
 [data-slot="sidebar"][data-variant="inset"]
   ~ [data-slot="sidebar-inset"]
@@ -3080,6 +3095,9 @@ diffs-container {
   color: var(--cortex-ink);
   font-size: 20px;
 }
+.marketing-mobile-panel {
+  display: none;
+}
 .marketing-hero {
   position: relative;
   max-width: 950px;
@@ -3992,6 +4010,22 @@ diffs-container {
   }
   .marketing-menu {
     display: block;
+    cursor: pointer;
+  }
+  .marketing-mobile-panel {
+    position: relative;
+    z-index: 4;
+    display: grid;
+    gap: 18px;
+    padding: 20px;
+    border-bottom: 1px solid var(--cortex-line);
+    background: var(--cortex-bg);
+    color: var(--cortex-muted);
+    font-size: 13px;
+  }
+  .marketing-mobile-panel a:hover,
+  .marketing-mobile-panel a:focus-visible {
+    color: var(--cortex-ink);
   }
   .marketing-hero {
     padding: 90px 22px 70px;
