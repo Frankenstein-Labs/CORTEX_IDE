@@ -14,6 +14,7 @@ import { Route as ChatRouteImport } from './routes/_chat'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LogoutRouteImport } from './routes/logout'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as ChatThreadIdRouteImport } from './routes/_chat.$threadId'
@@ -52,6 +53,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
 const LogoutRoute = LogoutRouteImport.update({
   id: '/logout',
   path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/$threadId': typeof ChatThreadIdRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/$threadId': typeof ChatThreadIdRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/logout': typeof LogoutRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/_chat/$threadId': typeof ChatThreadIdRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/forgot-password'
     | '/logout'
+    | '/reset-password'
     | '/sign-in'
     | '/sign-up'
     | '/$threadId'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/forgot-password'
     | '/logout'
+    | '/reset-password'
     | '/sign-in'
     | '/sign-up'
     | '/$threadId'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/forgot-password'
     | '/logout'
+    | '/reset-password'
     | '/sign-in'
     | '/sign-up'
     | '/_chat/$threadId'
@@ -265,6 +277,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LogoutRoute: typeof LogoutRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/logout'
       fullPath: '/logout'
       preLoaderRoute: typeof LogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -472,6 +492,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LogoutRoute: LogoutRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
   AuthCallbackRoute: AuthCallbackRoute,
